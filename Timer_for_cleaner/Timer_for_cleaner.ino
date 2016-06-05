@@ -8,10 +8,12 @@ byte KeyPressCount = 0;
 
 byte prevKeyState = HIGH;         // button is active low
 
-const byte button = 0;  // nano 5
-LEDBlinker led(4);
-int powerLed = 3;      // nano 12
-int out = 1;           // nano 11
+// Pin nummering for attiny45
+
+const byte button = 0;  // Input switch
+LEDBlinker led(4);      // Blue led (display time)
+int powerLed = 3;       // Red led (standby)
+int out = 1;            // Output (low or high)
 
 int timer = 0;
 
@@ -61,8 +63,8 @@ void setup() {
   pinMode(powerLed,OUTPUT);
   pinMode(out,OUTPUT);
   
-  led.off(); // status led ki
-  digitalWrite(powerLed,LOW); // power led be
+  led.off();                   // Timer led off
+  digitalWrite(powerLed,LOW);  // Power led on
 
 }
 
@@ -86,7 +88,7 @@ void loop() {
       blink();
   }
 
-//////////////// KEY management
+//////////////// KEY management ////////////////
 
     if (millis() - keyPrevMillis >= keySampleIntervalMs) {
         keyPrevMillis = millis();
@@ -104,8 +106,7 @@ void loop() {
     if (KeyPressCount >= longKeyPressCountMax) {
         longKeyPress();
          }
-        }
-        
+        }        
         prevKeyState = currKeyState;
     }
 
